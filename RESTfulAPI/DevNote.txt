@@ -1,0 +1,41 @@
+﻿2025-10-21
+
+代码运行服务器选择：1.IIS(只能在Windows上运行)  2.RESTfulAPI(KESTREL服务器)
+app.Environment.IsDevelopment() 解决方案的属性-调试-环境变量（修改不同的开发版本）
+
+MVC结构代码：
+
+1.添加控制器
+//注册控制器服务
+builder.Services.AddControllers(); 
+//映射控制器路由
+app.MapControllers();
+
+起名规范：xxxController 或 继承ControllerBase 或 [ApiController]
+
+2025-10-22
+docker创建：
+1.拉取sqlserver容器化镜像： docker pull mcr.microsoft.com/mssql/server:2022-latest
+2.查看镜像  docker images
+3.运行镜像（强密码类型）  docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Zhaowenyao@123" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest
+4.检查正在运行的镜像 docker ps 
+5.排查未运行成功的原因 docker ps -a(查看历史记录，获取ID),docker logs + ID
+
+2025-10-27
+AppDbContext 注册数据库上下文服务
+依赖注入类型：
+Transient  每次注入都新new
+Scoped     同一个HTTP请求内只new一次
+Singleton  整个进程只new一次
+
+2025-10-28
+使用Docker创建数据库
+
+2025-10-30
+通过代码Models模型来自动创建数据库  Microsoft.EntityFrameworkCore.Tools
+1.打开Package Manager Console(程序包管理控制器)
+2.启动Docker
+3.输入命令：add-migration initialMigration  （initialMigration为本次创建的数据库名称）
+4.update-database
+
+
