@@ -38,4 +38,5 @@ Singleton  整个进程只new一次
 3.输入命令：add-migration initialMigration  （initialMigration为本次创建的数据库名称）
 4.update-database
 
+重写上下文AppDbContext的OnModelCreating方法,读取Json文件来配置实体类和数据库表的映射关系
 

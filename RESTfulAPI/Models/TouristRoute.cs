@@ -23,9 +23,9 @@ namespace RESTfulAPI.Models
         [MaxLength]
         public string Features {  get; set; }
         [MaxLength]
-        public string FeeDescription {  get; set; }
+        public string? FeeDescription {  get; set; }
         [MaxLength]
-        public string Note { get; set; }
+        public string? Note { get; set; }
         public ICollection<TouristRoutePicture> TouristRoutePictures {  get; set; } 
             =new List<TouristRoutePicture>();   
         public TouristRoute() { }
