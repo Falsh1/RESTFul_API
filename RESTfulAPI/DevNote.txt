@@ -54,4 +54,10 @@ RESTFul接口风格：用 URL 定位资源，用 HTTP 动词描述动作，用 H
 | 6. 可缓存&分层	| 利用 HTTP 缓存头、代理、CDN 加速  | GET /orders 返回 `Cache-Control: max-age=30`				| （非RestFul风格）所有响应都 `no-store`，放弃缓存优势                |
 | 7. HATEOAS（超媒体驱动）|返回体里带链接，告诉客户端“下一步可以去哪” |  例：下单成功后返回 { links: { payment: "/orders/123/pay" } }
 
+HTTP状态码：1xx 信息性状态码 2xx 成功状态码 3xx 重定向状态码 4xx 客户端错误状态码 5xx 服务端错误状态码
+
+200 OK 
+201 创建成功
+204 处理成功，不需要内容
+
 
