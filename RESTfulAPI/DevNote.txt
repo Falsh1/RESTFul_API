@@ -43,3 +43,15 @@ Singleton  整个进程只new一次
 2025-11-03
 更新数据库
 修改Model类，更新数据库
+
+RESTFul接口风格：用 URL 定位资源，用 HTTP 动词描述动作，用 HTTP 状态码表达结果，无状态地返回统一格式的表述
+
+| 1. 资源导向		| URL 里只有名词，且用复数集合      | `/orders` 订单集合 `/orders/123` 单个订单					| （非RestFul风格）`/getOrder?id=123` <br> `/createOrder` |
+| 2. 动词归 HTTP	| 动作由 HTTP 方法给出				| GET 查 POST 增 PUT 全量更新 PATCH 差量更新 DELETE 删		| （非RestFul风格）POST /getOrder <br> POST /deleteOrder  |
+| 3. 无状态			| 服务器不存“上一次”的上下文      | 鉴权把 JWT 放 Header，每次请求自带完整信息                | （非RestFul风格）依赖服务端 Session，先 POST /login 才能调别的接口    |
+| 4. 统一接口		| 同资源同一套 URL，不同方法        | 对 `/orders/123` 用 GET/PUT/PATCH/DELETE 即可				| （非RestFul风格）为每种操作都新建一个 URL                         |
+| 5. 状态码表意		| 用标准码告诉客户端结果            | 201 创建成功 204 删除成功 404 资源不存在 409 业务冲突     | （非RestFul风格）200 里包 `{success:false,msg:"出错啦"}`     |
+| 6. 可缓存&分层	| 利用 HTTP 缓存头、代理、CDN 加速  | GET /orders 返回 `Cache-Control: max-age=30`				| （非RestFul风格）所有响应都 `no-store`，放弃缓存优势                |
+| 7. HATEOAS（超媒体驱动）|返回体里带链接，告诉客户端“下一步可以去哪” |  例：下单成功后返回 { links: { payment: "/orders/123/pay" } }
+
+
