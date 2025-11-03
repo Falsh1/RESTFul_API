@@ -28,6 +28,12 @@ namespace RESTfulAPI.Models
         public string? Note { get; set; }
         public ICollection<TouristRoutePicture> TouristRoutePictures {  get; set; } 
             =new List<TouristRoutePicture>();   
+
+        public double? Rating { get; set; }//评分
+        public TravelDays? TravelDays { get; set; }
+        public TripType? TripType { get; set; }
+        public DepartureCity DepartureCity { get; set; }
+
         public TouristRoute() { }
     }
 }

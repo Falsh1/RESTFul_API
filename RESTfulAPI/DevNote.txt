@@ -40,3 +40,6 @@ Singleton  整个进程只new一次
 
 重写上下文AppDbContext的OnModelCreating方法,读取Json文件来配置实体类和数据库表的映射关系
 
+2025-11-03
+更新数据库
+修改Model类，更新数据库
