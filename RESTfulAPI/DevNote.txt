@@ -55,9 +55,15 @@ RESTFul接口风格：用 URL 定位资源，用 HTTP 动词描述动作，用 H
 | 7. HATEOAS（超媒体驱动）|返回体里带链接，告诉客户端“下一步可以去哪” |  例：下单成功后返回 { links: { payment: "/orders/123/pay" } }
 
 HTTP状态码：1xx 信息性状态码 2xx 成功状态码 3xx 重定向状态码 4xx 客户端错误状态码 5xx 服务端错误状态码
-
 200 OK 
 201 创建成功
 204 处理成功，不需要内容
+
+2025-11-04
+接口请求内容协商：Accept: application/json  application/xml	
+builder.Services.AddControllers(setupAction =>
+{
+    setupAction.ReturnHttpNotAcceptable = true;//设置返回406状态码,当请求的格式不被支持时
+}).AddXmlDataContractSerializerFormatters();//添加XML格式支持
 
 

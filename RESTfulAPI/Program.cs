@@ -11,7 +11,10 @@ namespace RESTfulAPI
         {
             var builder = WebApplication.CreateBuilder(args);
             //注册控制器服务
-            builder.Services.AddControllers();
+            builder.Services.AddControllers(setupAction =>
+            {
+                setupAction.ReturnHttpNotAcceptable = true;//设置返回406状态码,当请求的格式不被支持时
+            }).AddXmlDataContractSerializerFormatters();//添加XML格式支持
             //注册数据库上下文服务
 
             builder.Services.AddDbContext<AppDbContext>(
