@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using RESTfulAPI.DataBase;
 using Microsoft.Extensions.Configuration;
 using RESTfulAPI.Services;
+using AutoMapper;
 
 namespace RESTfulAPI
 {
@@ -19,7 +20,8 @@ namespace RESTfulAPI
 
             builder.Services.AddDbContext<AppDbContext>(
                 option => option.UseSqlServer(builder.Configuration["DBContext:ConnectionString"]));
-
+            //扫描Profiles文件夹下的所有映射配置
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             builder.Services.AddTransient<ITouristRouteRepository,TouristRouteRepository>();
 
             var app = builder.Build();

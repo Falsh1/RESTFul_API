@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RESTfulAPI.Services;
+using AutoMapper;
+using RESTfulAPI.Dtos;
 
 namespace RESTfulAPI.Controllers
 {
@@ -9,10 +11,11 @@ namespace RESTfulAPI.Controllers
     public class TouristRoutesController : ControllerBase
     {
         private ITouristRouteRepository _touristRouteRepository;
-
-        public TouristRoutesController(ITouristRouteRepository touristRouteRepository)
+        private readonly IMapper _mapper;
+        public TouristRoutesController(ITouristRouteRepository touristRouteRepository, IMapper mapper)
         {
             _touristRouteRepository = touristRouteRepository;
+            _mapper = mapper;
         }
         [HttpGet]
         public IActionResult GerTouristRoutes()
@@ -22,7 +25,8 @@ namespace RESTfulAPI.Controllers
             {
                 return NotFound("没有旅游路线");
             }
-            return Ok(routes);
+            var routesdto = _mapper.Map<IEnumerable<TouristRouteDto>>(routes);
+            return Ok(routesdto);
         }
         [HttpGet("{touristRouteId}")]
         public IActionResult GetTouristRoutesbyId(Guid touristRouteId)
@@ -32,7 +36,8 @@ namespace RESTfulAPI.Controllers
             {
                 return NotFound("没有旅游路线");
             }
-            return Ok(routes);
+            var routedto = _mapper.Map<TouristRouteDto>(routes);
+            return Ok(routedto);
         }
     }
 }
