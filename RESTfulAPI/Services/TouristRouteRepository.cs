@@ -1,5 +1,6 @@
 ﻿using RESTfulAPI.Models;
 using RESTfulAPI.DataBase;
+using System.Reflection.Metadata.Ecma335;
 
 namespace RESTfulAPI.Services
 {
@@ -19,6 +20,16 @@ namespace RESTfulAPI.Services
         public IEnumerable<TouristRoute> GetTouristRoutes()
         {
             return _appDbContext.TouristRoutes.ToList();
+        }
+
+        public bool ExitPictureForTouristRoute(Guid TouristRouteId)
+        {
+            return _appDbContext.TouristRoutePictures.Any(t => t.TouristRouteId == TouristRouteId);
+        }
+
+        public IEnumerable<TouristRoutePicture> GetTouristRoutePicturesByTouristRouteId(Guid TouristRouteId)
+        {
+            return _appDbContext.TouristRoutePictures.Where(t => t.TouristRouteId == TouristRouteId).ToList();  
         }
     }
 }

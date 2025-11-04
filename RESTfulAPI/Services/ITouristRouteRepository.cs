@@ -6,5 +6,7 @@ namespace RESTfulAPI.Services
     {
         IEnumerable<TouristRoute> GetTouristRoutes();
         TouristRoute GetTouristRouteByID(Guid TouristRouteId);
+        bool ExitPictureForTouristRoute(Guid TouristRouteId);
+        IEnumerable<TouristRoutePicture> GetTouristRoutePicturesByTouristRouteId(Guid TouristRouteId);
     }
 }
