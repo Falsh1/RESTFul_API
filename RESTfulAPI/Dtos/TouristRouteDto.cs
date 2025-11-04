@@ -23,5 +23,6 @@ namespace RESTfulAPI.Dtos
         public string TravelDays { get; set; }
         public string TripType { get; set; }
         public string DepartureCity { get; set; }
+        public ICollection<TouristRoutePictureDto> TouristRoutePictures { get; set; }
     }
 }

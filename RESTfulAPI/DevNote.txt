@@ -68,4 +68,7 @@ builder.Services.AddControllers(setupAction =>
 
 DTO模型映射（AutoMapper,profile文件）
 
+父子资源的嵌套映射 Include(表连接) 
+映射的字段一致，且是Profile文件中配置的对象
+_appDbContext.TouristRoutes.Include(p => p.TouristRoutePictures)
 

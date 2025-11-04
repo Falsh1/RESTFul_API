@@ -23,12 +23,12 @@ namespace RESTfulAPI.Controllers
         {
             if (!_touristRouteRepository.ExitPictureForTouristRoute(touristRouteId))
             {
-               return NotFound("没有找到对应的旅游路线");
+                return NotFound("没有找到对应的旅游路线");
             }
             else
             {
                 var touristroutepicture = _touristRouteRepository.GetTouristRoutePicturesByTouristRouteId(touristRouteId);
-                if(touristroutepicture != null && touristroutepicture.Count() >= 0)
+                if (touristroutepicture != null && touristroutepicture.Count() >= 0)
                 {
                     return Ok(_mapper.Map<IEnumerable<TouristRoutePictureDto>>(touristroutepicture));
                 }
@@ -37,6 +37,22 @@ namespace RESTfulAPI.Controllers
                     return NotFound("没有找到该旅游路线的图片");
                 }
             }
+        }
+        [HttpGet("{pictureId}")]
+        public IActionResult GetPictureById(Guid touristRouteId,int pictureId)
+        {
+            if (!_touristRouteRepository.ExitPictureForTouristRoute(touristRouteId))
+            {
+                return NotFound("没有找到对应的旅游路线");
+            }
+            var touristroutepicture = _touristRouteRepository.GetTouristRoutePicturesByTouristRouteId(touristRouteId);
+
+            var picture = touristroutepicture.Where(p => p.Id == pictureId).FirstOrDefault();
+            if(picture == null)
+            {
+                return NotFound("该旅游路线没有此图片");
+            }
+            return Ok(_mapper.Map<TouristRoutePictureDto>(picture));
         }
     }
 }
