@@ -72,3 +72,7 @@ DTO模型映射（AutoMapper,profile文件）
 映射的字段一致，且是Profile文件中配置的对象
 _appDbContext.TouristRoutes.Include(p => p.TouristRoutePictures)
 
+2025-11-05
+API请求参数类型：[FromQuery]   https://api/search?id=10000
+                 [FromRoute]   https://api/search/10000
+IQueryable延迟加载: Linq(创建表达式)->IQueryable(延迟执行)->聚合操作(ToList(),执行数据库查询)

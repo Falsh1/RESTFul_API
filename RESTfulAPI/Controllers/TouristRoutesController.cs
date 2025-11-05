@@ -21,13 +21,27 @@ namespace RESTfulAPI.Controllers
         public IActionResult GerTouristRoutes()
         {
             var routes = _touristRouteRepository.GetTouristRoutes();
-            if(routes == null || routes.Count() <= 0)
+            if (routes == null || routes.Count() <= 0)
             {
                 return NotFound("没有旅游路线");
             }
             var routesdto = _mapper.Map<IEnumerable<TouristRouteDto>>(routes);
             return Ok(routesdto);
         }
+
+        //关键词查询 http://localhost:5001/api/TouristRoutes/search?keyword=越南
+        [HttpGet("search")]
+        public IActionResult GerTouristRoutesByKeyword([FromQuery] string keyword)
+        {
+            var routes = _touristRouteRepository.GetTouristRoutesByKeyword(keyword);
+            if (routes == null || routes.Count() <= 0)
+            {
+                return NotFound("没有旅游路线");
+            }
+            var routesdto = _mapper.Map<IEnumerable<TouristRouteDto>>(routes);
+            return Ok(routesdto);
+        }
+
         [HttpGet("{touristRouteId}")]
         public IActionResult GetTouristRoutesbyId(Guid touristRouteId)
         {
