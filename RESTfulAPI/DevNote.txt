@@ -76,3 +76,6 @@ _appDbContext.TouristRoutes.Include(p => p.TouristRoutePictures)
 API请求参数类型：[FromQuery]   https://api/search?id=10000
                  [FromRoute]   https://api/search/10000
 IQueryable延迟加载: Linq(创建表达式)->IQueryable(延迟执行)->聚合操作(ToList(),执行数据库查询)
+
+2025-11-17
+封装资源过滤器（旅游路线查询参数封装TouristRouteResourceParamaters）

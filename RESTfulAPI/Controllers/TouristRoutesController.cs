@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using RESTfulAPI.Services;
 using AutoMapper;
 using RESTfulAPI.Dtos;
+using System.Text.RegularExpressions;
+using RESTfulAPI.ResourceParameters;
 
 namespace RESTfulAPI.Controllers
 {
@@ -31,9 +33,17 @@ namespace RESTfulAPI.Controllers
 
         //关键词查询 http://localhost:5001/api/TouristRoutes/search?keyword=越南
         [HttpGet("search")]
-        public IActionResult GerTouristRoutesByKeyword([FromQuery] string keyword)
+        public IActionResult GerTouristRoutesByKeyword(
+            //[FromQuery] string keyword,
+            //string? rating //按评分筛选  lessThan3,equalTo2,greaterThan4
+
+            //使用ResourceParameters类封装查询参数
+            [FromBody] TouristRouteResourceParamaters parameters
+            )
         {
-            var routes = _touristRouteRepository.GetTouristRoutesByKeyword(keyword);
+            //var routes = _touristRouteRepository.GetTouristRoutesByKeyword(parameters.Keyword,parameters.operatorType,parameters.ratingValue);
+            var routes = _touristRouteRepository.GetTouristRoutesByKeyword(parameters);
+
             if (routes == null || routes.Count() <= 0)
             {
                 return NotFound("没有旅游路线");
