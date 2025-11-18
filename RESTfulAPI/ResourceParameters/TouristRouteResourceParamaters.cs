@@ -10,6 +10,8 @@ namespace RESTfulAPI.ResourceParameters
         public int? ratingValue { get; set; }
 
         //包装器属性（wrapper property）
+        //_rating用于存储传入的字符串值
+        //Rating用于对外提供访问，并在设置时解析字符串
         private string _rating { get; set;}
         public string? Rating { 
             get{ return _rating; }
