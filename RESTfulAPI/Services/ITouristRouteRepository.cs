@@ -1,4 +1,5 @@
-﻿using RESTfulAPI.Models;
+﻿using RESTfulAPI.Dtos;
+using RESTfulAPI.Models;
 using RESTfulAPI.ResourceParameters;
 
 namespace RESTfulAPI.Services
@@ -12,5 +13,6 @@ namespace RESTfulAPI.Services
         bool ExitPictureForTouristRoute(Guid TouristRouteId);
         IEnumerable<TouristRoutePicture> GetTouristRoutePicturesByTouristRouteId(Guid TouristRouteId);
         TouristRoutePicture GetTouristRoutePictureById(int Id);
+        bool CreateTouristRoute(TouristRoute TouristRoute);
     }
 }

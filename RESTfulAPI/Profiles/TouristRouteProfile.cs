@@ -25,6 +25,11 @@ namespace RESTfulAPI.Profiles
                     dest => dest.DepartureCity,
                     opt => opt.MapFrom(src => src.DepartureCity.ToString())
                 );
+            CreateMap<CreateTouristRouteDto, TouristRoute>()
+                .ForMember(
+                    dest => dest.Id,
+                    opt => opt.MapFrom(src => new Guid().ToString())
+                );
         }
     }
 }

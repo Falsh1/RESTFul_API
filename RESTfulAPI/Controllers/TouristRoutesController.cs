@@ -5,6 +5,7 @@ using AutoMapper;
 using RESTfulAPI.Dtos;
 using System.Text.RegularExpressions;
 using RESTfulAPI.ResourceParameters;
+using RESTfulAPI.Models;
 
 namespace RESTfulAPI.Controllers
 {
@@ -52,7 +53,7 @@ namespace RESTfulAPI.Controllers
             return Ok(routesdto);
         }
 
-        [HttpGet("{touristRouteId}")]
+        [HttpGet("{touristRouteId}",Name = "GetTouristRoutesbyId")]
         public IActionResult GetTouristRoutesbyId(Guid touristRouteId)
         {
             var routes = _touristRouteRepository.GetTouristRouteByID(touristRouteId);
@@ -62,6 +63,24 @@ namespace RESTfulAPI.Controllers
             }
             var routedto = _mapper.Map<TouristRouteDto>(routes);
             return Ok(routedto);
+        }
+
+        [HttpPost]
+        public IActionResult CreateTouristRoute([FromBody] CreateTouristRouteDto createTouristRouteDto)
+        {
+            TouristRoute TouristRoute = _mapper.Map<TouristRoute>(createTouristRouteDto);
+            bool result = _touristRouteRepository.CreateTouristRoute(TouristRoute);
+            if (result)
+            {
+                var TouristRouteToReturn = _mapper.Map<TouristRouteDto>(TouristRoute);
+                return CreatedAtRoute("GetTouristRoutesbyId"
+                    , new { touristRouteId = TouristRouteToReturn.Id }
+                    , TouristRouteToReturn);
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
     }
 }

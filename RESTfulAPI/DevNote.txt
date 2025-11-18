@@ -79,3 +79,9 @@ IQueryable延迟加载: Linq(创建表达式)->IQueryable(延迟执行)->聚合�
 
 2025-11-17
 封装资源过滤器（旅游路线查询参数封装TouristRouteResourceParamaters）
+
+2025-11-18
+创建旅游路线，header location返回模式，CreatedAtRoute(返回接口地址的别名，接口参数，接口对象)
+return CreatedAtRoute("GetTouristRoutesbyId"
+                    , new { touristRouteId = TouristRouteToReturn.Id }
+                    , TouristRouteToReturn);

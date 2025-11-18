@@ -4,6 +4,7 @@ using System.Reflection.Metadata.Ecma335;
 using Microsoft.EntityFrameworkCore;
 using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 using RESTfulAPI.ResourceParameters;
+using RESTfulAPI.Dtos;
 
 namespace RESTfulAPI.Services
 {
@@ -102,6 +103,12 @@ namespace RESTfulAPI.Services
         TouristRoutePicture ITouristRouteRepository.GetTouristRoutePictureById(int Id)
         {
             return _appDbContext.TouristRoutePictures.Where(p => p.Id == Id).FirstOrDefault();
+        }
+        public bool CreateTouristRoute(TouristRoute TouristRoute)
+        {
+            if (TouristRoute == null) throw new ArgumentNullException(nameof(TouristRoute));
+            _appDbContext.TouristRoutes.Add(TouristRoute);
+            return _appDbContext.SaveChanges() >= 0 ? true:false;
         }
     }
 }
