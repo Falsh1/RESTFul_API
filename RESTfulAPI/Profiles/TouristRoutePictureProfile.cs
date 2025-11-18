@@ -9,6 +9,7 @@ namespace RESTfulAPI.Profiles
         public TouristRoutePictureProfile()
         {
             CreateMap<TouristRoutePicture, TouristRoutePictureDto>();
+            CreateMap<CreateTouristRoutePictureDto, TouristRoutePicture>();
         }
     }
 }

@@ -90,9 +90,9 @@ namespace RESTfulAPI.Services
             return result.ToList();
         }
 
-        public bool ExitPictureForTouristRoute(Guid TouristRouteId)
+        public bool ExitTouristRoute(Guid TouristRouteId)
         {
-            return _appDbContext.TouristRoutePictures.Any(t => t.TouristRouteId == TouristRouteId);
+            return _appDbContext.TouristRoutes.Any(t => t.Id == TouristRouteId);
         }
 
         public IEnumerable<TouristRoutePicture> GetTouristRoutePicturesByTouristRouteId(Guid TouristRouteId)
@@ -109,6 +109,14 @@ namespace RESTfulAPI.Services
             if (TouristRoute == null) throw new ArgumentNullException(nameof(TouristRoute));
             _appDbContext.TouristRoutes.Add(TouristRoute);
             return _appDbContext.SaveChanges() >= 0 ? true:false;
+        }
+        public bool CreateTouristRoutePicture(Guid touristRouteId, TouristRoutePicture TouristRoutePicture)
+        {
+            if (TouristRoutePicture == null) throw new ArgumentNullException(nameof(TouristRoutePicture));
+            //外键关系字段TouristRouteId，必须赋值，否则无法新增
+            TouristRoutePicture.TouristRouteId = touristRouteId;
+            _appDbContext.TouristRoutePictures.Add(TouristRoutePicture);
+            return _appDbContext.SaveChanges() >= 0 ? true : false;
         }
     }
 }

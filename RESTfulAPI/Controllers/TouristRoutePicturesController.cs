@@ -21,7 +21,7 @@ namespace RESTfulAPI.Controllers
         [HttpGet]
         public IActionResult GetPictureListByTouristRoute(Guid touristRouteId)
         {
-            if (!_touristRouteRepository.ExitPictureForTouristRoute(touristRouteId))
+            if (!_touristRouteRepository.ExitTouristRoute(touristRouteId))
             {
                 return NotFound("没有找到对应的旅游路线");
             }
@@ -38,10 +38,10 @@ namespace RESTfulAPI.Controllers
                 }
             }
         }
-        [HttpGet("{pictureId}")]
+        [HttpGet("{pictureId}" ,Name = "GetPictureById")]
         public IActionResult GetPictureById(Guid touristRouteId,int pictureId)
         {
-            if (!_touristRouteRepository.ExitPictureForTouristRoute(touristRouteId))
+            if (!_touristRouteRepository.ExitTouristRoute(touristRouteId))
             {
                 return NotFound("没有找到对应的旅游路线");
             }
@@ -53,6 +53,33 @@ namespace RESTfulAPI.Controllers
                 return NotFound("该旅游路线没有此图片");
             }
             return Ok(_mapper.Map<TouristRoutePictureDto>(picture));
+        }
+        [HttpPost]
+        public IActionResult CreateTouristRoutePicture(
+            [FromRoute] Guid touristRouteId, 
+            [FromBody] CreateTouristRoutePictureDto createTouristRoutePictureDto)
+        {
+            if (!_touristRouteRepository.ExitTouristRoute(touristRouteId))
+            {
+                return NotFound("没有找到对应的旅游路线");
+            }
+            else{
+                var TouristRoutePicture = _mapper.Map<TouristRoutePicture>(createTouristRoutePictureDto);
+                bool result = _touristRouteRepository.CreateTouristRoutePicture(touristRouteId,TouristRoutePicture);
+                if (result)
+                {
+                    var TouristRoutePictureToReturn = _mapper.Map<TouristRoutePictureDto>(TouristRoutePicture);
+                    return CreatedAtRoute("GetPictureById"
+                        , new {
+                            touristRouteId = TouristRoutePictureToReturn.TouristRouteId ,
+                            pictureId = TouristRoutePictureToReturn.Id }
+                        , TouristRoutePictureToReturn);
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
         }
     }
 }

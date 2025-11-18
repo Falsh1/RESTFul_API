@@ -10,9 +10,10 @@ namespace RESTfulAPI.Services
         IEnumerable<TouristRoute> GetTouristRoutesByKeyword(string keyWord,string? operatorType,int? ratingValue);
         IEnumerable<TouristRoute> GetTouristRoutesByKeyword(TouristRouteResourceParamaters paramaters);
         TouristRoute GetTouristRouteByID(Guid TouristRouteId);
-        bool ExitPictureForTouristRoute(Guid TouristRouteId);
+        bool ExitTouristRoute(Guid TouristRouteId);
         IEnumerable<TouristRoutePicture> GetTouristRoutePicturesByTouristRouteId(Guid TouristRouteId);
         TouristRoutePicture GetTouristRoutePictureById(int Id);
         bool CreateTouristRoute(TouristRoute TouristRoute);
+        bool CreateTouristRoutePicture(Guid touristRouteId, TouristRoutePicture TouristRoutePicture);
     }
 }
