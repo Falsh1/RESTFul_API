@@ -87,3 +87,10 @@ header location返回模式，CreatedAtRoute(返回接口地址的别名，接�
 return CreatedAtRoute("GetTouristRoutesbyId"
                     , new { touristRouteId = TouristRouteToReturn.Id }
                     , TouristRouteToReturn);
+
+2025-11-19
+添加数据验证
+
+属性级别数据验证：using System.ComponentModel.DataAnnotations;
+1. DTO模型字段添加字段属性[Required]，[MaxLength(100)]，[Column(TypeName = "decimal(18, 2)")]，[Range(0.0, 1.0)]
+2. 自定义校验规则，继承IValidatableObject实现接口函数Validate()

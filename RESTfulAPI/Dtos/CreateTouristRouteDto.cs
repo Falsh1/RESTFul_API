@@ -1,8 +1,14 @@
-﻿namespace RESTfulAPI.Dtos
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace RESTfulAPI.Dtos
 {
-    public class CreateTouristRouteDto
+    public class CreateTouristRouteDto : IValidatableObject
     {
+        [Required(ErrorMessage = "Title不可为空！")]
+        [MaxLength(100)]
         public string Title { get; set; }
+        [Required]
+        [MaxLength(1500)]
         public string Description { get; set; }
         //Price = OriginalPrice * DiscountPresent
         public decimal Price { get; set; }
@@ -21,5 +27,35 @@
         //与图片类名一致，Automapper自动映射
         public ICollection<CreateTouristRoutePictureDto> TouristRoutePictures { get; set; }
             =new List<CreateTouristRoutePictureDto>();
+
+
+        //yield return
+        /*
+         * 框架拿错误的方式foreach (var error in instance.Validate(ctx)) 
+         * 如果Validate直接return一个List,需要new，还要提前计算所有的错误填充List
+         * 使用yield return，真正被 foreach 时，才会跑进 if 判断，算一条返回一条，避免new也减少计算
+         */
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if(Title == Description)
+            {
+                yield return new ValidationResult(
+                    "Titley与Description必须不同", 
+                    new[] { "CreateTouristRouteDto" });
+            }
+        }
+        //等价于
+        /*
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            var list = new List<ValidationResult>();   // 1. 先 new 盒子
+
+            if (Title == Description)                  // 2. 判断
+                list.Add(new ValidationResult("Title与Description必须不同",
+                                              new[] { "CreateTouristRouteDto" }));
+
+            return list;                               // 3. 把盒子返回
+        }
+        */
     }
 }
