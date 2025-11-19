@@ -18,6 +18,8 @@
         public string TravelDays { get; set; }
         public string TripType { get; set; }
         public string DepartureCity { get; set; }
-        //public ICollection<TouristRoutePictureDto> TouristRoutePictures { get; set; }
+        //与图片类名一致，Automapper自动映射
+        public ICollection<CreateTouristRoutePictureDto> TouristRoutePictures { get; set; }
+            =new List<CreateTouristRoutePictureDto>();
     }
 }
