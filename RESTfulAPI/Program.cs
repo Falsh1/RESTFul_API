@@ -3,6 +3,7 @@ using RESTfulAPI.DataBase;
 using Microsoft.Extensions.Configuration;
 using RESTfulAPI.Services;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 
 namespace RESTfulAPI
 {
@@ -15,7 +16,30 @@ namespace RESTfulAPI
             builder.Services.AddControllers(setupAction =>
             {
                 setupAction.ReturnHttpNotAcceptable = true;//设置返回406状态码,当请求的格式不被支持时
-            }).AddXmlDataContractSerializerFormatters();//添加XML格式支持
+            }).AddXmlDataContractSerializerFormatters()//添加XML格式支持
+            //接管 ASP.NET Core 的模型验证失败响应
+            //不再返回框架默认的 400 + JSON
+            //而是统一返回 422 + 符合 RFC 7807 的 application/ problem + json
+            //并且带上自定义扩展字段
+            .ConfigureApiBehaviorOptions(options =>
+            {
+                options.InvalidModelStateResponseFactory = context =>
+                {
+                    var problemDetail = new ValidationProblemDetails(context.ModelState)
+                    {
+                        Type = "错误类型",
+                        Title = "数据验证失败",
+                        Status = StatusCodes.Status422UnprocessableEntity,
+                        Detail = "详细信息",
+                        Instance = context.HttpContext.Request.Path
+                    };
+                    problemDetail.Extensions.Add("traceId", context.HttpContext.TraceIdentifier);
+                    return new UnprocessableEntityObjectResult(problemDetail)
+                    {
+                        ContentTypes = { "application/problem+json" }
+                    };
+                };
+            });
             //注册数据库上下文服务
 
             builder.Services.AddDbContext<AppDbContext>(
