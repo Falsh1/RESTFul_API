@@ -1,7 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RESTfulAPI.ValidationAttributes;
+using System.ComponentModel.DataAnnotations;
 
 namespace RESTfulAPI.Dtos
 {
+    [TR_TitleAndDescriptionMustBeDiff]
     public class CreateTouristRouteDto : IValidatableObject
     {
         [Required(ErrorMessage = "Title不可为空！")]
@@ -40,7 +42,7 @@ namespace RESTfulAPI.Dtos
             if(Title == Description)
             {
                 yield return new ValidationResult(
-                    "Titley与Description必须不同", 
+                    "Titley与Description必须不同(属性校验)", 
                     new[] { "CreateTouristRouteDto" });
             }
         }

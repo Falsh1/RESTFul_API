@@ -94,3 +94,6 @@ return CreatedAtRoute("GetTouristRoutesbyId"
 属性级别数据验证：using System.ComponentModel.DataAnnotations;
 1. DTO模型字段添加字段属性[Required]，[MaxLength(100)]，[Column(TypeName = "decimal(18, 2)")]，[Range(0.0, 1.0)]
 2. 自定义校验规则，继承IValidatableObject实现接口函数Validate()
+
+类级别校验：
+创建校验类，继承ValidationAttribute，重写IsValid函数，给需要校验的对象添加校验类属性
