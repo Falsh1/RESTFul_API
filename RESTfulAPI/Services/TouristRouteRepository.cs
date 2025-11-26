@@ -118,5 +118,9 @@ namespace RESTfulAPI.Services
             _appDbContext.TouristRoutePictures.Add(TouristRoutePicture);
             return _appDbContext.SaveChanges() >= 0 ? true : false;
         }
+        public bool Save()
+        {
+            return (_appDbContext.SaveChanges() >= 0);
+        }
     }
 }

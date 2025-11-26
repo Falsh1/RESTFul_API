@@ -30,6 +30,7 @@ namespace RESTfulAPI.Profiles
                     dest => dest.Id,
                     opt => opt.MapFrom(src => new Guid().ToString())
                 );
+            CreateMap<UpdateTouristRoteDto,TouristRoute>();
         }
     }
 }

@@ -82,5 +82,23 @@ namespace RESTfulAPI.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpPut("{touristRouteId}")]
+        public IActionResult UpdateTouristRoute(
+            [FromRoute] Guid touristRouteId, 
+            [FromBody] UpdateTouristRoteDto updateTouristRoteDto)
+        {
+            if (!_touristRouteRepository.ExitTouristRoute(touristRouteId))
+            {
+                return NotFound("没有旅游路线");
+            }
+            else
+            {
+                var UpdateTouristRoute = _touristRouteRepository.GetTouristRouteByID(touristRouteId);
+                _mapper.Map(updateTouristRoteDto, UpdateTouristRoute);
+                _touristRouteRepository.Save();
+                return NoContent();
+            }
+        }
     }
 }
