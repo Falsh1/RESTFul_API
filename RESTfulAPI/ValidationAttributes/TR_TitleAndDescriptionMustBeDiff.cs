@@ -7,12 +7,12 @@ namespace RESTfulAPI.ValidationAttributes
     {
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
-            var touristRouteDto = (CreateTouristRouteDto)validationContext.ObjectInstance;
+            var touristRouteDto = (CrrateAndPutTpuristDto)validationContext.ObjectInstance;
             if (touristRouteDto.Title == touristRouteDto.Description)
             {
                 return new ValidationResult(
-                    "Titley与Description必须不同(类级别校验)",
-                    new[] { "CreateTouristRouteDto" });
+                    "Title与Description必须不同(类级别校验)",
+                    new[] { "CrrateAndPutTpuristDto" });
             }
             return ValidationResult.Success;
         }

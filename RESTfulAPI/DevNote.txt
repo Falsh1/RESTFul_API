@@ -97,3 +97,6 @@ return CreatedAtRoute("GetTouristRoutesbyId"
 
 类级别校验：
 创建校验类，继承ValidationAttribute，重写IsValid函数，给需要校验的对象添加校验类属性
+
+2025-11-27
+合并新建，更新的校验逻辑（继承同一父类，在父类级别再添加校验）
