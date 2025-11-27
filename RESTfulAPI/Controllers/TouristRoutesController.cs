@@ -116,7 +116,12 @@ namespace RESTfulAPI.Controllers
             {
                 var UpdateTouristRoute = _touristRouteRepository.GetTouristRouteByID(touristRouteId);
                 var TouristRouteToPatch = _mapper.Map<UpdateTouristRoteDto>(UpdateTouristRoute);
-                jsonPatchDocument.ApplyTo(TouristRouteToPatch);
+                jsonPatchDocument.ApplyTo(TouristRouteToPatch, ModelState);
+                //Patch校验
+                if (!TryValidateModel(TouristRouteToPatch)) 
+                {
+                    return ValidationProblem(ModelState);
+                }
                 _mapper.Map(TouristRouteToPatch, UpdateTouristRoute);
                 _touristRouteRepository.Save();
                 return NoContent();
