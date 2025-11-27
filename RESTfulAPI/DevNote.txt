@@ -100,3 +100,24 @@ return CreatedAtRoute("GetTouristRoutesbyId"
 
 2025-11-27
 合并新建，更新的校验逻辑（继承同一父类，在父类级别再添加校验）
+
+Patch的6种操作：add,remove,replace,move,copy,test
+NuGet包：Microsoft.AspNetCore.JsonPatch,
+         Microsoft.AspNetCore.Mvc.NewtonsoftJson
+
+patch请求设置:
+1. 请求主体 [FromBody] JsonPatchDocument<UpdateTouristRoteDto> jsonPatchDocument
+2. jsonPatchDocument.ApplyTo(TouristRouteToPatch);对更新Dto应用jsonPatchDocument
+3. patch请求格式：
+[
+    {
+        "op" : "replace",
+        "path" : "/title",
+        "value" : "welocme to luoma"
+    },
+    {
+        "op" : "replace",
+        "path" : "/description",
+        "value" : "abcede"
+    },
+]

@@ -6,6 +6,8 @@ using RESTfulAPI.Dtos;
 using System.Text.RegularExpressions;
 using RESTfulAPI.ResourceParameters;
 using RESTfulAPI.Models;
+using Azure;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace RESTfulAPI.Controllers
 {
@@ -53,7 +55,7 @@ namespace RESTfulAPI.Controllers
             return Ok(routesdto);
         }
 
-        [HttpGet("{touristRouteId}",Name = "GetTouristRoutesbyId")]
+        [HttpGet("{touristRouteId}", Name = "GetTouristRoutesbyId")]
         public IActionResult GetTouristRoutesbyId(Guid touristRouteId)
         {
             var routes = _touristRouteRepository.GetTouristRouteByID(touristRouteId);
@@ -85,7 +87,7 @@ namespace RESTfulAPI.Controllers
 
         [HttpPut("{touristRouteId}")]
         public IActionResult UpdateTouristRoute(
-            [FromRoute] Guid touristRouteId, 
+            [FromRoute] Guid touristRouteId,
             [FromBody] UpdateTouristRoteDto updateTouristRoteDto)
         {
             if (!_touristRouteRepository.ExitTouristRoute(touristRouteId))
@@ -96,6 +98,26 @@ namespace RESTfulAPI.Controllers
             {
                 var UpdateTouristRoute = _touristRouteRepository.GetTouristRouteByID(touristRouteId);
                 _mapper.Map(updateTouristRoteDto, UpdateTouristRoute);
+                _touristRouteRepository.Save();
+                return NoContent();
+            }
+        }
+
+        [HttpPatch("{touristRouteId}")]
+        public IActionResult PartiallyUpdateTouristRoute(
+             [FromRoute] Guid touristRouteId,
+             [FromBody] JsonPatchDocument<UpdateTouristRoteDto> jsonPatchDocument)
+        {
+            if (!_touristRouteRepository.ExitTouristRoute(touristRouteId))
+            {
+                return NotFound("没有旅游路线");
+            }
+            else
+            {
+                var UpdateTouristRoute = _touristRouteRepository.GetTouristRouteByID(touristRouteId);
+                var TouristRouteToPatch = _mapper.Map<UpdateTouristRoteDto>(UpdateTouristRoute);
+                jsonPatchDocument.ApplyTo(TouristRouteToPatch);
+                _mapper.Map(TouristRouteToPatch, UpdateTouristRoute);
                 _touristRouteRepository.Save();
                 return NoContent();
             }

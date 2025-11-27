@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using RESTfulAPI.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Serialization;
 
 namespace RESTfulAPI
 {
@@ -16,7 +17,14 @@ namespace RESTfulAPI
             builder.Services.AddControllers(setupAction =>
             {
                 setupAction.ReturnHttpNotAcceptable = true;//设置返回406状态码,当请求的格式不被支持时
-            }).AddXmlDataContractSerializerFormatters()//添加XML格式支持
+            })
+            //注册JsonPatch
+            .AddNewtonsoftJson(setupAction =>
+            {
+                setupAction.SerializerSettings.ContractResolver =
+                new CamelCasePropertyNamesContractResolver();
+            }) 
+            .AddXmlDataContractSerializerFormatters()//添加XML格式支持
             //接管 ASP.NET Core 的模型验证失败响应
             //不再返回框架默认的 400 + JSON
             //而是统一返回 422 + 符合 RFC 7807 的 application/ problem + json
