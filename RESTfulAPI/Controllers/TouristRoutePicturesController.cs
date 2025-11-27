@@ -38,8 +38,8 @@ namespace RESTfulAPI.Controllers
                 }
             }
         }
-        [HttpGet("{pictureId}" ,Name = "GetPictureById")]
-        public IActionResult GetPictureById(Guid touristRouteId,int pictureId)
+        [HttpGet("{pictureId}", Name = "GetPictureById")]
+        public IActionResult GetPictureById(Guid touristRouteId, int pictureId)
         {
             if (!_touristRouteRepository.ExitTouristRoute(touristRouteId))
             {
@@ -48,7 +48,7 @@ namespace RESTfulAPI.Controllers
             var touristroutepicture = _touristRouteRepository.GetTouristRoutePicturesByTouristRouteId(touristRouteId);
 
             var picture = touristroutepicture.Where(p => p.Id == pictureId).FirstOrDefault();
-            if(picture == null)
+            if (picture == null)
             {
                 return NotFound("该旅游路线没有此图片");
             }
@@ -56,29 +56,50 @@ namespace RESTfulAPI.Controllers
         }
         [HttpPost]
         public IActionResult CreateTouristRoutePicture(
-            [FromRoute] Guid touristRouteId, 
+            [FromRoute] Guid touristRouteId,
             [FromBody] CreateTouristRoutePictureDto createTouristRoutePictureDto)
         {
             if (!_touristRouteRepository.ExitTouristRoute(touristRouteId))
             {
                 return NotFound("没有找到对应的旅游路线");
             }
-            else{
+            else
+            {
                 var TouristRoutePicture = _mapper.Map<TouristRoutePicture>(createTouristRoutePictureDto);
-                bool result = _touristRouteRepository.CreateTouristRoutePicture(touristRouteId,TouristRoutePicture);
+                bool result = _touristRouteRepository.CreateTouristRoutePicture(touristRouteId, TouristRoutePicture);
                 if (result)
                 {
                     var TouristRoutePictureToReturn = _mapper.Map<TouristRoutePictureDto>(TouristRoutePicture);
                     return CreatedAtRoute("GetPictureById"
-                        , new {
-                            touristRouteId = TouristRoutePictureToReturn.TouristRouteId ,
-                            pictureId = TouristRoutePictureToReturn.Id }
+                        , new
+                        {
+                            touristRouteId = TouristRoutePictureToReturn.TouristRouteId,
+                            pictureId = TouristRoutePictureToReturn.Id
+                        }
                         , TouristRoutePictureToReturn);
                 }
                 else
                 {
                     return BadRequest();
                 }
+            }
+        }
+
+        [HttpDelete("{pictureId}")]
+        public IActionResult DeleteTouristRoutePicture(
+            [FromRoute] Guid touristRouteId,
+            [FromRoute] int pictureId)
+        {
+            if (!_touristRouteRepository.ExitTouristRoute(touristRouteId))
+            {
+                return NotFound("没有找到对应的旅游路线");
+            }
+            else
+            {
+                var picture = _touristRouteRepository.GetTouristRoutePictureById(pictureId);
+                _touristRouteRepository.DeleteTouristRoutePicture(picture);
+                _touristRouteRepository.Save();
+                return NoContent();
             }
         }
     }

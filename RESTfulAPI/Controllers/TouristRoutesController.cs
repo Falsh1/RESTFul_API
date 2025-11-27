@@ -127,5 +127,35 @@ namespace RESTfulAPI.Controllers
                 return NoContent();
             }
         }
+        [HttpDelete("{touristRouteId}")]
+        public IActionResult DeleteTouristRoute([FromRoute] Guid touristRouteId)
+        {
+            if (!_touristRouteRepository.ExitTouristRoute(touristRouteId))
+            {
+                return NotFound("没有旅游路线");
+            }
+            else
+            {
+                var touristRoute = _touristRouteRepository.GetTouristRouteByID(touristRouteId);
+                _touristRouteRepository.DeleteTouristRoute(touristRoute);
+                _touristRouteRepository.Save();
+                return NoContent(); 
+            }
+        }
+        //批量删除
+        [HttpDelete("batch")]
+        public IActionResult DeleteTouristRoutes([FromBody] IEnumerable<Guid> TouristRouteIDs)
+        {
+            foreach(var touristRouteId in TouristRouteIDs)
+            {
+                if (_touristRouteRepository.ExitTouristRoute(touristRouteId))
+                {
+                    var touristRoute = _touristRouteRepository.GetTouristRouteByID(touristRouteId);
+                    _touristRouteRepository.DeleteTouristRoute(touristRoute);
+                    _touristRouteRepository.Save();
+                }
+            }
+            return NoContent();
+        }
     }
 }

@@ -121,3 +121,8 @@ patch请求设置:
         "value" : "abcede"
     },
 ]
+4.patch校验
+if (!TryValidateModel(TouristRouteToPatch)) 
+{
+    return ValidationProblem(ModelState);
+}

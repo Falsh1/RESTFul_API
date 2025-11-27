@@ -122,5 +122,13 @@ namespace RESTfulAPI.Services
         {
             return (_appDbContext.SaveChanges() >= 0);
         }
+        public void DeleteTouristRoute(TouristRoute TouristRoute) 
+        { 
+            _appDbContext.Remove(TouristRoute);   
+        }
+        public void DeleteTouristRoutePicture(TouristRoutePicture TouristRoutePicture)
+        {
+            _appDbContext.Remove(TouristRoutePicture);
+        }
     }
 }

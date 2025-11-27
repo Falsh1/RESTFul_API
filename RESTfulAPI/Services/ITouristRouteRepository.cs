@@ -16,5 +16,7 @@ namespace RESTfulAPI.Services
         bool CreateTouristRoute(TouristRoute TouristRoute);
         bool CreateTouristRoutePicture(Guid touristRouteId, TouristRoutePicture TouristRoutePicture);
         bool Save();
+        void DeleteTouristRoute(TouristRoute TouristRoute);
+        void DeleteTouristRoutePicture(TouristRoutePicture TouristRoutePicture);
     }
 }
