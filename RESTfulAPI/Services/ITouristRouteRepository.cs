@@ -6,16 +6,16 @@ namespace RESTfulAPI.Services
 {
     public interface ITouristRouteRepository
     {
-        IEnumerable<TouristRoute> GetTouristRoutes();
-        IEnumerable<TouristRoute> GetTouristRoutesByKeyword(string keyWord,string? operatorType,int? ratingValue);
-        IEnumerable<TouristRoute> GetTouristRoutesByKeyword(TouristRouteResourceParamaters paramaters);
-        TouristRoute GetTouristRouteByID(Guid TouristRouteId);
-        bool ExitTouristRoute(Guid TouristRouteId);
-        IEnumerable<TouristRoutePicture> GetTouristRoutePicturesByTouristRouteId(Guid TouristRouteId);
-        TouristRoutePicture GetTouristRoutePictureById(int Id);
+        Task<IEnumerable<TouristRoute>> GetTouristRoutesAsync();
+        Task<IEnumerable<TouristRoute>> GetTouristRoutesByKeywordAsync(string keyWord,string? operatorType,int? ratingValue);
+        Task<IEnumerable<TouristRoute>> GetTouristRoutesByKeywordAsync(TouristRouteResourceParamaters paramaters);
+        Task<TouristRoute> GetTouristRouteByIDAsync(Guid TouristRouteId);
+        Task<bool> ExitTouristRouteAsync(Guid TouristRouteId);
+        Task<IEnumerable<TouristRoutePicture>> GetTouristRoutePicturesByTouristRouteIdAsync(Guid TouristRouteId);
+        Task<TouristRoutePicture> GetTouristRoutePictureByIdAsync(int Id);
         bool CreateTouristRoute(TouristRoute TouristRoute);
         bool CreateTouristRoutePicture(Guid touristRouteId, TouristRoutePicture TouristRoutePicture);
-        bool Save();
+        Task<bool> SaveAsync();
         void DeleteTouristRoute(TouristRoute TouristRoute);
         void DeleteTouristRoutePicture(TouristRoutePicture TouristRoutePicture);
     }

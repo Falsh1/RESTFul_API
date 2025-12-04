@@ -16,15 +16,15 @@ namespace RESTfulAPI.Services
             _appDbContext = appDbContext;
         }
 
-        public IEnumerable<TouristRoute> GetTouristRoutes()
+        public async Task<IEnumerable<TouristRoute>> GetTouristRoutesAsync()
         {
-            return _appDbContext.TouristRoutes.Include(p => p.TouristRoutePictures).ToList();
+            return await _appDbContext.TouristRoutes.Include(p => p.TouristRoutePictures).ToListAsync();
         }
-        public TouristRoute GetTouristRouteByID(Guid TouristRouteId)
+        public async Task<TouristRoute> GetTouristRouteByIDAsync(Guid TouristRouteId)
         {
-            return _appDbContext.TouristRoutes.Include(p => p.TouristRoutePictures).FirstOrDefault(n => n.Id == TouristRouteId);
+            return await _appDbContext.TouristRoutes.Include(p => p.TouristRoutePictures).FirstOrDefaultAsync(n => n.Id == TouristRouteId);
         }
-        public IEnumerable<TouristRoute> GetTouristRoutesByKeyword(string keyword, string? operatorType, int? ratingValue)
+        public async Task<IEnumerable<TouristRoute>> GetTouristRoutesByKeywordAsync(string keyword, string? operatorType, int? ratingValue)
         {
             //IQueryable延迟加载，处理sql,数据库只执行最终sql，减少IO操作
             IQueryable<TouristRoute> result = _appDbContext.TouristRoutes.Include(p => p.TouristRoutePictures);
@@ -56,10 +56,10 @@ namespace RESTfulAPI.Services
                 //}
             }
 
-            return result.ToList();
+            return await result.ToListAsync();
         }
         
-        public IEnumerable<TouristRoute> GetTouristRoutesByKeyword(TouristRouteResourceParamaters paramaters)
+        public async Task<IEnumerable<TouristRoute>> GetTouristRoutesByKeywordAsync(TouristRouteResourceParamaters paramaters)
         {
             string keyword = "";
             string? operatorType = "";
@@ -87,22 +87,22 @@ namespace RESTfulAPI.Services
                     _ => result.Where(r => r.Rating == ratingValue)
                 };
             }
-            return result.ToList();
+            return await result.ToListAsync();
         }
 
-        public bool ExitTouristRoute(Guid TouristRouteId)
+        public async Task<bool> ExitTouristRouteAsync(Guid TouristRouteId)
         {
-            return _appDbContext.TouristRoutes.Any(t => t.Id == TouristRouteId);
+            return await _appDbContext.TouristRoutes.AnyAsync(t => t.Id == TouristRouteId);
         }
 
-        public IEnumerable<TouristRoutePicture> GetTouristRoutePicturesByTouristRouteId(Guid TouristRouteId)
+        public async Task<IEnumerable<TouristRoutePicture>> GetTouristRoutePicturesByTouristRouteIdAsync(Guid TouristRouteId)
         {
-            return _appDbContext.TouristRoutePictures.Where(t => t.TouristRouteId == TouristRouteId).ToList();  
+            return await _appDbContext.TouristRoutePictures.Where(t => t.TouristRouteId == TouristRouteId).ToListAsync();  
         }
 
-        TouristRoutePicture ITouristRouteRepository.GetTouristRoutePictureById(int Id)
+        public async Task<TouristRoutePicture> GetTouristRoutePictureByIdAsync(int Id)
         {
-            return _appDbContext.TouristRoutePictures.Where(p => p.Id == Id).FirstOrDefault();
+            return await _appDbContext.TouristRoutePictures.Where(p => p.Id == Id).FirstOrDefaultAsync();
         }
         public bool CreateTouristRoute(TouristRoute TouristRoute)
         {
@@ -118,9 +118,9 @@ namespace RESTfulAPI.Services
             _appDbContext.TouristRoutePictures.Add(TouristRoutePicture);
             return _appDbContext.SaveChanges() >= 0 ? true : false;
         }
-        public bool Save()
+        public async Task<bool> SaveAsync()
         {
-            return (_appDbContext.SaveChanges() >= 0);
+            return (await _appDbContext.SaveChangesAsync() >= 0);
         }
         public void DeleteTouristRoute(TouristRoute TouristRoute) 
         { 

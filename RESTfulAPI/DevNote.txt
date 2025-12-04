@@ -17,7 +17,7 @@ app.MapControllers();
 docker创建：
 1.拉取sqlserver容器化镜像： docker pull mcr.microsoft.com/mssql/server:2022-latest
 2.查看镜像  docker images
-3.运行镜像（强密码类型）  docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Zhaowenyao@123" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest
+3.运行镜像（强密码类型）  docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Zhaowenyao@123" -p 14330:1433 -d mcr.microsoft.com/mssql/server:2022-latest
 4.检查正在运行的镜像 docker ps 
 5.排查未运行成功的原因 docker ps -a(查看历史记录，获取ID),docker logs + ID
 
@@ -126,3 +126,10 @@ if (!TryValidateModel(TouristRouteToPatch))
 {
     return ValidationProblem(ModelState);
 }
+
+2025-12-04
+异步重构代码
+1.函数声明，async关键字在返回类型前
+2.async函数本身不创建异步操作，只有在调用await时会进行异步操作
+3.一个async函数只能被另一个async函数调用
+4.async函数返回类型：void,Task,Task<T>,IAsyncEnumerable<T>
